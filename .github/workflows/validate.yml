@@ -8,7 +8,7 @@ jobs:
       - name: frontmatter present in every SKILL.md
         run: |
           fail=0
-          for f in skills/*/SKILL.md; do
+          while IFS= read -r f; do
             grep -q '^name:' "$f" && grep -q '^description:' "$f" || { echo "missing frontmatter: $f"; fail=1; }
-          done
+          done < <(find . -name SKILL.md -not -path './.git/*')
           exit $fail
